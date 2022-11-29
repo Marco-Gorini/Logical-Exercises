@@ -1,0 +1,679 @@
+<body class="theme-m">
+    <div class="font-open-sans-loader"></div>
+    <div class="font-source-code-loader"></div>
+
+  <p>We are in Greece, around 500 ac, Greece is not yet a nation&nbsp;but a
+   constellation of cities&nbsp;(i.e. city = polis, cities = polies) that 
+  do trades and&nbsp;grow!</p>
+  
+  <p>Let's try to simulate how these poleis evolve. Imagine Greece's 
+  territory like a grid and every cell should contain a polis or an empty 
+  territory. There are big ones and small ones, the big poleis can 
+  discover the territory, trade with small ones, gather points from the 
+  empty fields in which are nearby&nbsp;and&nbsp;evolve!</p>
+  
+  <p><br>
+  A big polis can earn points from empty grounds and have trades with 
+  small polies nearby&nbsp;his territories. When enough points have been 
+  earned, the polis will expand.</p>
+  
+  <p>A small polis don't do anything except helping bigger ones which are nearby.</p>
+  
+  <p><em>A trade between a big polis and a small one only means the big 
+  polis will get more points when a small is nearby than from a nearby 
+  empty territory.</em></p>
+  
+  <p><br>
+  <strong>Here some basics rules for:</strong></p>
+  
+  <ol>
+      <li>&nbsp;A big polis gets 1&nbsp;point for each empty territory that is touched by her</li>
+      <li>&nbsp;A big polis gets 2 points for each small polis that gets in touch with</li>
+      <li>&nbsp;A big polis expands when it reaches 10 points.
+      <ol>
+          <li>The polis expands around its centre, starting from midday in a 
+  clock-wise way.&nbsp;If the next territory is already occupied, it 
+  should conquer the next free one possible.</li>
+      </ol>
+      </li>
+      <li>&nbsp;A big polis cannot conquer small polies.</li>
+  </ol>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>Game execution</strong></p>
+  
+  <p>The game proceeds by <strong>iterations</strong>.</p>
+  
+  <p>On each iteration, the game has to:</p>
+  
+  <p>&nbsp;</p>
+  
+  <ol>
+      <li>Calculate points gathered by the&nbsp;big polis
+      <ol>
+          <li>Earned points will be kept for the next iteration if they are&nbsp;no&nbsp;more than 10</li>
+      </ol>
+      </li>
+      <li>Eventually expand if it&nbsp;reached&nbsp;10 or more points
+      <ol>
+          <li>It expands only one territory at a time&nbsp;(i.e. with 20 points it <strong>DOESN'T</strong>&nbsp;conquers 2 territories, just 1)</li>
+          <li>When a polis expands, points are being re-set to 0 so that the new iteration will start&nbsp;from 0</li>
+      </ol>
+      </li>
+  </ol>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>Inputs:</strong></p>
+  
+  <ol>
+      <li>The <strong>initial matrix</strong> of the world, containing&nbsp;<strong>N</strong> big polies,&nbsp;<strong>M</strong> small polies, <strong>L</strong> empty fields</li>
+      <li>The <strong>number of iterations</strong>
+  </li>
+  </ol>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>Output:</strong></p>
+  
+  <p>The matrix after having executed the iterations specified in input</p>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>Constraints:</strong></p>
+  
+  <ul>
+      <li>
+  <strong>Namings</strong>:
+  
+      <ul>
+          <li>Big polies can have any non-null/empty alphanumerical name, excepts a lowercase s ("s")</li>
+          <li>Small polies can have only lowercase "s"&nbsp;</li>
+          <li>Empty territories are marked by a "-"</li>
+      </ul>
+      </li>
+      <li>1 &lt;= Matrix rows &lt;= 1000</li>
+      <li>1 &lt;= Matrix columns &lt;= 1000</li>
+      <li>0 &lt;= Iterations &lt;= 1000000</li>
+      <li>0 &lt;= Big polies &lt;= 1</li>
+      <li>0 &lt;= Small polies &lt;= 1000000</li>
+      <li>0 &lt;= Empty Fields&nbsp;&lt;= 1000000</li>
+  </ul>
+  
+  <p><strong>Simple example execution:</strong></p>
+  
+  <p><strong>t<sub>0</sub></strong></p>
+  
+  <table style="width:500px;" cellspacing="1" cellpadding="1" border="1" align="center">
+      <tbody>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>s</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+      </tbody>
+  </table>
+  
+  <p><strong>P1 is a&nbsp;big polis</strong>.&nbsp; Since the world is brand new, it has&nbsp;<strong>0 points</strong>.</p>
+  
+  <p><strong>s</strong> is a small polis. All the rest are empty territories.</p>
+  
+  <p>Let's <strong>trigger an evolution </strong>of the world.</p>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>t<sub>1</sub></strong></p>
+  
+  <table style="width:500px;" cellspacing="1" cellpadding="1" border="1" align="center">
+      <tbody>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>s</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+      </tbody>
+  </table>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>P1</strong> has earned <strong>9 points</strong>. 7 from the 7 <strong>empty territories</strong> around, 2 from the <strong>small polis which is nearby</strong>.</p>
+  
+  <p>Nothing else happens.</p>
+  
+  <p>Let's trigger another evolution of the world.</p>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>t<sub>2</sub></strong></p>
+  
+  <table style="width:500px;" cellspacing="1" cellpadding="1" border="1" align="center">
+      <tbody>
+          <tr>
+              <td>-</td>
+              <td><strong>P1</strong></td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>s</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+      </tbody>
+  </table>
+  
+  <p><strong>P1</strong> has earned another&nbsp;<strong>9 points, so reaches a total of 18</strong>. Now, having <strong>more than 10</strong> points, <strong>P1 can evolve</strong> and&nbsp;conquer the first free territory on it's top center.</p>
+  
+  <p>Now that it&nbsp;<strong>evolved, points are going back to 0</strong>.</p>
+  
+  <p>Let's trigger another evolution of the world.</p>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>t<sub>3</sub></strong></p>
+  
+  <table style="width:500px;" cellspacing="1" cellpadding="1" border="1" align="center">
+      <tbody>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>s</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+      </tbody>
+  </table>
+  
+  <p>P1 earn now 8 points, cannot evolve and will have those points saved for the next evolution.</p>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>t<sub>4</sub></strong></p>
+  
+  <table style="width:500px;" cellspacing="1" cellpadding="1" border="1" align="center">
+      <tbody>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td><strong>P1</strong></td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>s</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+      </tbody>
+  </table>
+  
+  <p>P1 earn now 16 points and&nbsp;can <strong>evolve</strong>&nbsp;and conquer another territory, following a <strong>clock-wise rotation around its starting point</strong>.</p>
+  
+  <p>&nbsp;</p>
+  
+  <h2><strong>BONUS PART!! ALLOW MORE THAN ONE BIG POLIS!</strong></h2>
+  
+  <h2>&nbsp;</h2>
+  
+  <p><strong>Example execution:</strong></p>
+  
+  <p><strong>t<sub>0</sub></strong></p>
+  
+  <table style="width:500px;" cellspacing="1" cellpadding="1" border="1" align="center">
+      <tbody>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>s</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>P2</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+      </tbody>
+  </table>
+  
+  <p>P1 and P2 are big polies.&nbsp; Since the world is brand new, they both have <strong>0 points</strong>.</p>
+  
+  <p>s is a small polis. All the rest are empty territories.</p>
+  
+  <p>Let's <strong>trigger an evolution </strong>of the world.</p>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>t<sub>1</sub></strong></p>
+  
+  <table style="width:500px;" cellspacing="1" cellpadding="1" border="1" align="center">
+      <tbody>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>s</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>P2</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+      </tbody>
+  </table>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>P1</strong> has earned <strong>9 points</strong>. 7 from the 7 <strong>empty territories</strong> around, 2 from the <strong>small polis which is nearby</strong>.</p>
+  
+  <p>P2 has earned <strong>8 points</strong> instead, only collecting from the empty territories</p>
+  
+  <p>Nothing else happens.</p>
+  
+  <p>Let's trigger another evolution of the world.</p>
+  
+  <p>&nbsp;</p>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>t<sub>2</sub></strong></p>
+  
+  <table style="width:500px;" cellspacing="1" cellpadding="1" border="1" align="center">
+      <tbody>
+          <tr>
+              <td>-</td>
+              <td><strong>P1</strong></td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td><strong>P2</strong></td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>s</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>P2</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+      </tbody>
+  </table>
+  
+  <p><strong>P1</strong> has earned another&nbsp;<strong>9 points, so reaches a total of 18</strong>. Now, having <strong>more than 10</strong> points, <strong>P1 can evolve</strong> and&nbsp;conquer the first free territory on it's top center.</p>
+  
+  <p>The same goes for P2.</p>
+  
+  <p>Now that they <strong>evolved, points are going back to 0</strong>.</p>
+  
+  <p>Let's trigger another evolution of the world.</p>
+  
+  <p>&nbsp;</p>
+  
+  <p><strong>t<sub>3</sub></strong></p>
+  
+  <table style="width:500px;" cellspacing="1" cellpadding="1" border="1" align="center">
+      <tbody>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>P1</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>P2</td>
+              <td><strong>P2</strong></td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>s</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>P2</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+          </tr>
+      </tbody>
+  </table>
+  
+  <p>P1 earn now 8 points, cannot evolve and will have those points saved for the next evolution.</p>
+  
+  <p><strong>P2</strong> instead <strong>earned 10 points</strong> so can <strong>evolve immediately</strong> and conquer another territory, following a <strong>clock-wise rotation around its starting point</strong>.</p>
+  
+  <p>&nbsp;</p>
+  
+  <p><br>
